@@ -1,0 +1,30 @@
+import java.util.ArrayDeque;
+import java.util.Scanner;
+
+public class L05_PrinterQueue {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        ArrayDeque<String> printerQueue = new ArrayDeque<>();
+
+        String input = scanner.nextLine();
+
+        while (!input.equals("print")){
+
+            if (input.equals("cancel")){
+                if (printerQueue.size() == 0){
+                    System.out.println("Printer is on standby");
+                } else {
+                    System.out.println(String.format("Canceled %s", printerQueue.pollFirst()));
+                }
+            } else {
+                printerQueue.offer(input);
+            }
+
+
+            input = scanner.nextLine();
+        }
+
+        printerQueue.forEach(e -> System.out.println(String.format("%s", e)));
+    }
+}
