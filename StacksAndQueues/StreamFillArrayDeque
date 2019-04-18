@@ -3,3 +3,15 @@
                                     .mapToInt(Integer::parseInt)
                                     .boxed()
                                     .collect(Collectors.toCollection(ArrayDeque::new));
+                                    
+                                    // This snippet is used to fill the data in order for example 1, 2, 3, 4, 5 rather than being pushed!
+                                    
+                                    
+                                    
+               ArrayDeque<Integer> stack = new ArrayDeque<>();
+                
+               Arrays.stream(scanner.nextLine().split("\\s+"))
+                                    .mapToInt(Integer::parseInt)
+                                    .forEach(e -> stack.push(e));         
+                                    
+                                    // What this does is push elements!
