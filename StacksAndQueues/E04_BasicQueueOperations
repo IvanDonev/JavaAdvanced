@@ -1,0 +1,44 @@
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class E04_BasicQueueOperations {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        String[] inputOperations = scanner.nextLine().split("\\s+");
+        int[] inputNumbers = Arrays.stream(scanner.nextLine().split("\\s+"))
+                            .mapToInt(Integer::parseInt)
+                            .toArray();
+
+        int n = Integer.parseInt(inputOperations[0]);
+        int s = Integer.parseInt(inputOperations[1]);
+        int x = Integer.parseInt(inputOperations[2]);
+
+
+        ArrayDeque<Integer> queue = new ArrayDeque<>();
+
+        for (int i = 0; i < n ; i++) {
+            queue.add(inputNumbers[i]);
+        }
+
+        for (int i = 0; i <s; i++) {
+            queue.poll();
+        }
+
+        if (queue.isEmpty()){
+            System.out.println("0");
+            return;
+        }
+
+        if (queue.contains(x)){
+            System.out.println("true");
+        } else {
+            queue.stream().sorted((p1, p2) -> {
+                int sort = Integer.compare(p1 ,p2);
+                return sort;
+            }).limit(1).forEach(e -> System.out.println(String.format("%d", e)));
+        }
+
+    }
+}
