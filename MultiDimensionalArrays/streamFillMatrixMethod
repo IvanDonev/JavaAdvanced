@@ -1,0 +1,15 @@
+ private static int[][] readMatrix() {
+        String[] input = scanner.nextLine().split(" ");
+        int rows = Integer.parseInt(input[0]);
+        int[][] matrix = new int[rows][];
+
+
+        for (int i = 0; i < rows ; i++) {
+            int[] currRow = Arrays.stream(scanner.nextLine().split(" "))
+                            .mapToInt(Integer::parseInt)
+                            .toArray();
+
+            matrix[i] = currRow;
+        }
+        return matrix;
+    }
