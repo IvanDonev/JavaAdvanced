@@ -1,0 +1,55 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class L01_CompareMatrices {
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main (String[] args){
+
+       int[][] firstMatrix = readMatrix();
+       int[][] secondMatrix = readMatrix();
+
+
+       if (compareMatrix(firstMatrix, secondMatrix)){
+           System.out.println("equal");
+       } else {
+           System.out.println("not equal");
+       }
+
+
+
+    }
+
+    private static boolean compareMatrix(int[][] firstMatrix, int[][] secondMatrix) {
+
+        if (firstMatrix.length != secondMatrix.length || firstMatrix[0].length != secondMatrix[0].length){
+            return false;
+        }
+
+        for (int i = 0; i < firstMatrix.length; i++) {
+            for (int j = 0; j < firstMatrix[0].length; j++) {
+                if (firstMatrix[i][j] != secondMatrix[i][j]){
+                    return false;
+                }
+
+            }
+        }
+        return true;
+    }
+
+    private static int[][] readMatrix() {
+        String[] input = scanner.nextLine().split(" ");
+        int rows = Integer.parseInt(input[0]);
+        int[][] matrix = new int[rows][];
+
+
+        for (int i = 0; i < rows ; i++) {
+            int[] currRow = Arrays.stream(scanner.nextLine().split(" "))
+                            .mapToInt(Integer::parseInt)
+                            .toArray();
+
+            matrix[i] = currRow;
+        }
+        return matrix;
+    }
+}
