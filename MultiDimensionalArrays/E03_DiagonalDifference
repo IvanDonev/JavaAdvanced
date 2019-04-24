@@ -1,0 +1,46 @@
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class E03_DiagonalDifference {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        int size = Integer.parseInt(scanner.nextLine());
+
+        int[][] matrix = new int[size][size];
+
+        for (int i = 0; i <size ; i++) {
+            matrix[i] = Arrays.stream(scanner.nextLine().split(" "))
+                        .mapToInt(Integer::parseInt)
+                        .toArray();
+        }
+
+        int primarySum = 0;
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                primarySum += matrix[i][j];
+
+                if (i < matrix.length - 1){
+                    i++;
+                }
+            }
+        }
+
+        int secondarySum = 0;
+        for (int i = matrix.length - 1; i >= 0; i--) {
+            for (int j = 0; j < matrix.length ; j++) {
+                secondarySum += matrix[i][j];
+
+                if (i > 0){
+                    i--;
+                }
+            }
+        }
+
+        int result = primarySum - secondarySum;
+        System.out.println(Math.abs(result));
+
+    }
+}
