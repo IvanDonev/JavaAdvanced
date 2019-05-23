@@ -1,0 +1,75 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class E04_MaximalSum {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        int row = scanner.nextInt();
+        int col = scanner.nextInt();
+        scanner.nextLine();
+
+        int[][] matrix = new int[row][col];
+
+        for (int i = 0; i < matrix.length; i++) {
+            matrix[i] = Arrays.stream(scanner.nextLine().split(" "))
+                        .mapToInt(Integer::parseInt)
+                        .toArray();
+        }
+
+        int maxSum = Integer.MIN_VALUE;
+        int rowIndex = -1;
+        int colIndex = -1;
+        for (int i = 1; i < row - 1; i++) {
+            for (int j = 1; j < col - 1; j++) {
+                int currentSum = getMatrixSum(matrix, i, j);
+                if (currentSum > maxSum){
+                    maxSum = currentSum;
+                    rowIndex = i;
+                    colIndex = j;
+                }
+            }
+            
+        }
+
+
+        System.out.println("Sum = " + maxSum);
+        printMatrix(matrix, rowIndex, colIndex);
+
+
+    }
+
+    private static void printMatrix(int[][] matrix, int rowIndex, int colIndex) {
+
+        int beginRow = rowIndex - 1;
+        int beginCol = colIndex - 1;
+
+        for (int i = beginRow; i < beginRow + 3 ; i++) {
+            for (int j = beginCol; j <beginCol + 3 ; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+
+
+
+    }
+
+    private static int getMatrixSum(int[][] matrix, int row, int col) {
+            int sum = 0;
+
+            sum += matrix[row][col];
+            sum += matrix[row - 1][col];
+            sum += matrix[row + 1][col];
+            sum += matrix[row][col - 1];
+            sum += matrix[row][col + 1];
+            sum += matrix[row - 1][col - 1];
+            sum += matrix[row + 1][col + 1];
+            sum += matrix[row + 1][col - 1];
+            sum += matrix[row - 1][col + 1];
+
+
+            return sum;
+    }
+}
