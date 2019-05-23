@@ -1,0 +1,74 @@
+
+import java.util.ArrayList;
+        import java.util.Scanner;
+        import java.util.stream.Collectors;
+
+public class E07_CrossFire {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        String[] matrixDimensions = scanner.nextLine().split(" ");
+        int row = Integer.parseInt(matrixDimensions[0]);
+        int col = Integer.parseInt(matrixDimensions[1]);
+
+        ArrayList<ArrayList<Integer>> matrix= new ArrayList<>();
+
+        int count = 1;
+        for (int i = 0; i < row; i++) {
+            ArrayList<Integer> currRow = new ArrayList<>();
+            for (int j = 0; j < col; j++) {
+                currRow.add(count++);
+            }
+            matrix.add(currRow);
+        }
+
+        String command = scanner.nextLine();
+
+        while (!command.equalsIgnoreCase("Nuke it from orbit")){
+            String[] inputSplit = command.split("\\s+");
+
+            int rowCoordinate = Integer.parseInt(inputSplit[0]);
+            int colCoordinate = Integer.parseInt(inputSplit[1]);
+
+            int radius = Integer.parseInt(inputSplit[2]);
+
+            for (int i = rowCoordinate - radius; i <= rowCoordinate + radius ; i++) {
+                if (isInBounds(matrix, i, colCoordinate)){
+                    matrix.get(i).set(colCoordinate, 0);
+                }
+            }
+
+            for (int i = colCoordinate - radius; i <colCoordinate + radius; i++) {
+                if (isInBounds(matrix, rowCoordinate, i)){
+                    matrix.get(rowCoordinate).set(i, 0);
+
+                }
+            }
+
+
+            for (int i = 0; i < matrix.size() ; i++) {
+                matrix.set(i, matrix.get(i).stream().filter(element -> element != 0).collect(Collectors.toCollection(ArrayList::new)));
+
+                if (matrix.get(i).size() <= 0){
+                    matrix.remove(i);
+                    i--;
+                }
+            }
+            command = scanner.nextLine();
+        }
+
+
+        for (int i = 0; i < matrix.size(); i++) {
+            for (int j = 0; j < matrix.get(i).size() ; j++) {
+                System.out.printf("%d ", matrix.get(i).get(j));
+
+            }
+            System.out.println();
+        }
+
+    }
+
+    private static boolean isInBounds(ArrayList<ArrayList<Integer>> matrix, int row, int col) {
+        return row >= 0 && row < matrix.size() && col >= 0 && col < matrix.get(row).size();
+    }
+}
