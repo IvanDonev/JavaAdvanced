@@ -1,0 +1,91 @@
+import java.util.*;
+
+public class E08_HandsOfCards {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+        Map<String, Set<String>> cardDeckPerPerson = new LinkedHashMap<>();
+        String pattern = "[:, ]+ *";
+
+        String input = scanner.nextLine();
+
+        while (!input.equalsIgnoreCase("JOKER")){
+            String[] splitInput = input.split(pattern);
+
+         String name = splitInput[0];
+
+            for (int i = 1; i < splitInput.length ; i++) {
+                cardDeckPerPerson.putIfAbsent(name, new HashSet<>());
+                cardDeckPerPerson.get(name).add(splitInput[i]);
+
+            }
+
+            input = scanner.nextLine();
+        }
+
+        for (Map.Entry<String, Set<String>> entry : cardDeckPerPerson.entrySet()) {
+
+            int deckSum = calculateDeckPower(entry.getValue());
+            System.out.printf("%s: %d", entry.getKey(), deckSum);
+            System.out.println();
+
+        }
+
+        
+    }
+
+    private static int calculateDeckPower(Set<String> deck) {
+
+        int totalSum = 0;
+
+        for (String card : deck) {
+            int power = 0;
+
+            if (Character.isDigit(card.charAt(0)) && card.charAt(0) != '1'){
+                power += card.charAt(0) - '0';
+            } else if (card.charAt(0) == '1'){
+                power += 10;
+            }
+
+            switch (card.charAt(0)){
+                case 'J':
+                    power += 11;
+                    break;
+                case 'Q':
+                    power += 12;
+                    break;
+                case 'K':
+                    power += 13;
+                    break;
+                case 'A':
+                    power += 14;
+                    break;
+            }
+
+
+            switch (card.charAt(card.length() - 1)){
+                case 'S':
+                    power *= 4;
+                    break;
+                case 'H':
+                    power *= 3;
+                    break;
+                case 'D':
+                    power *= 2;
+                    break;
+                case 'C':
+                    power *= 1;
+                    break;
+            }
+
+            totalSum += power;
+
+        }
+
+
+
+        return  totalSum;
+    }
+
+
+}
+
