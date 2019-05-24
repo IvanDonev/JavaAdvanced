@@ -1,0 +1,48 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class E09_UserLogs {
+    private static Integer index = 0;
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Map<String, Integer>> logInfo = new TreeMap<>();
+
+        String input = scanner.nextLine();
+
+        while (!input.equalsIgnoreCase("End")){
+            String[] splitInput = input.split("[= ]+");
+
+            String ipAddress = splitInput[1];
+            String username = splitInput[splitInput.length - 1];
+
+            logInfo.putIfAbsent(username, new LinkedHashMap<>());
+            logInfo.get(username).putIfAbsent(ipAddress, 0);
+            logInfo.get(username).put(ipAddress, logInfo.get(username).get(ipAddress) + 1);
+
+            input = scanner.nextLine();
+        }
+
+        logInfo.entrySet().stream().forEach( innerMap -> {
+            System.out.println(innerMap.getKey() + ":");
+            index = 0;
+            innerMap.getValue().entrySet().forEach(e1 -> {
+                index++;
+                System.out.printf("%s => %d", e1.getKey(), e1.getValue());
+
+                if (index == innerMap.getValue().size()){
+                    System.out.printf(".");
+                } else {
+                    System.out.printf(", ");
+                }
+
+            });
+            System.out.println();
+        });
+
+
+
+    }
+}
