@@ -1,0 +1,37 @@
+import java.util.LinkedHashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class E02_SetfOfElements {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = scanner.nextInt();
+        int m = scanner.nextInt();
+        scanner.nextLine();
+
+        Set<Integer> firstSet = new LinkedHashSet<>();
+        Set<Integer> secondSet = new LinkedHashSet<>();
+        Set<Integer> repeatingSet = new LinkedHashSet<>();
+
+
+        for (int i = 0; i < n + m ; i++) {
+            int currInt = Integer.parseInt(scanner.nextLine());
+
+
+            if (i < n){
+                firstSet.add(currInt);
+            } else {
+                secondSet.add(currInt);
+            }
+
+            if (firstSet.contains(currInt) && secondSet.contains(currInt)){
+                repeatingSet.add(currInt);
+            }
+        }
+
+      repeatingSet.forEach(e -> System.out.print(e + " "));
+
+
+    }
+}
