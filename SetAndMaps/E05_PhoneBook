@@ -1,0 +1,36 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class E05_PhoneBook {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, String> phoneBook = new HashMap<>();
+        String input = scanner.nextLine();
+
+        while (!input.equalsIgnoreCase("search")){
+            String[] splitInput = input.split("-");
+            phoneBook.put(splitInput[0], splitInput[1]);
+            input = scanner.nextLine();
+        }
+
+        input = scanner.nextLine();
+
+        while (!input.equalsIgnoreCase("stop")){
+
+            if (phoneBook.containsKey(input)){
+                System.out.printf("%s -> %s", input, phoneBook.get(input));
+                System.out.println();
+            } else {
+                System.out.println("Contact " + input + " does not exist.");
+            }
+
+            input = scanner.nextLine();
+        }
+
+
+    }
+
+
+}
