@@ -1,0 +1,30 @@
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+
+public class E04_CountSymbols {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Map<String, Integer> charCount = new TreeMap<>();
+        String input = scanner.nextLine();
+
+        for (int i = 0; i < input.length(); i++) {
+            String currChar = String.valueOf(input.charAt(i));
+
+
+            charCount.putIfAbsent(currChar, 0);
+            charCount.put(currChar, charCount.get(currChar) + 1);
+
+        }
+
+
+        charCount.entrySet().forEach(p1-> {
+            System.out.printf("%s: %d time/s", p1.getKey(), p1.getValue());
+            System.out.println();
+
+        });
+    
+    
+    }
+}
