@@ -1,0 +1,33 @@
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+public class E06_AMinerTask {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+        Map<String, Integer> resourceBank = new LinkedHashMap<>();
+
+
+        while (true){
+            String resource = scanner.nextLine();
+
+            if (resource.equalsIgnoreCase("stop")){
+                break;
+            }
+
+            int quantity = Integer.parseInt(scanner.nextLine());
+
+            resourceBank.putIfAbsent(resource, 0);
+            resourceBank.put(resource, resourceBank.get(resource) + quantity);
+
+        }
+
+        resourceBank.entrySet().forEach(e -> {
+            System.out.printf("%s -> %d", e.getKey(), e.getValue());
+            System.out.println();
+        });
+
+
+    }
+}
