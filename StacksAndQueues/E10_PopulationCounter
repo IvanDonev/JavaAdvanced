@@ -1,0 +1,95 @@
+import java.util.*;
+
+public class E10_PopulationCounter {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+
+        String input = scanner.nextLine();
+
+        Map<String, Country> countryMap = new LinkedHashMap<>();
+
+        while (!input.equals("report")){
+            String[] splitInput = input.split("\\|");
+
+            String city = splitInput[0];
+            String country = splitInput[1];
+            long population = Long.parseLong(splitInput[2]);
+
+
+            countryMap.putIfAbsent(country, new Country(country));
+            City currentCity = new City(city, population);
+            countryMap.get(country).cities.add(currentCity);
+
+            input = scanner.nextLine();
+        }
+
+
+    countryMap.values().stream().sorted().forEach(System.out::print);
+
+    }
+    private static class Country implements Comparable<Country>{
+        String name;
+        List<City> cities;
+
+        public Country(String name) {
+            this.name = name;
+            this.cities = new ArrayList<>();
+        }
+
+        public long getCitiesPopulation() {
+            long totalPopulation = 0L;
+
+            for (int i = 0; i <cities.size(); i++) {
+                totalPopulation += cities.get(i).population;
+            }
+
+            return totalPopulation;
+        }
+
+
+
+        @Override
+        public String toString() {
+            StringBuilder output = new StringBuilder();
+            output.append(String.format("%s (total population: %d)", name, getCitiesPopulation()));
+            output.append(System.lineSeparator());
+            this.cities.stream().sorted().forEach(e -> {
+                output.append(e);
+                output.append(System.lineSeparator());
+
+            });
+            return output.toString();
+        }
+
+        @Override
+        public int compareTo(Country otherCountry) {
+            return Long.compare(otherCountry.getCitiesPopulation(), this.getCitiesPopulation());
+        }
+    }
+
+
+    private static class City implements Comparable<City> {
+
+        String name;
+        long population;
+
+        public City(String name, long population) {
+            this.name = name;
+            this.population = population;
+        }
+
+        @Override
+        public int compareTo(City otherCity) {
+            return Long.compare(otherCity.population, this.population);
+        }
+
+
+        @Override
+        public String toString() {
+            return String.format("=>%s: %d", this.name, this.population);
+        }
+    }
+}
+
+
