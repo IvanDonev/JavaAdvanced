@@ -1,0 +1,57 @@
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class E11_LogsAggregator {
+    public static int index = 0;
+    public static void main (String[] args){
+
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Map<String, Integer>> usernameLogsAndDuration = new TreeMap<>();
+
+
+        int n = Integer.parseInt(scanner.nextLine());
+
+        while (n-- > 0){
+            String[] input = scanner.nextLine().split(" ");
+
+            String username = input[1];
+            String log = input[0];
+            int duration = Integer.parseInt(input[2]);
+
+            usernameLogsAndDuration.putIfAbsent(username, new TreeMap<>());
+            usernameLogsAndDuration.get(username).putIfAbsent(log, 0);
+            usernameLogsAndDuration.get(username).put(log, usernameLogsAndDuration.get(username).get(log) + duration);
+
+        }
+
+
+        for (Map.Entry<String, Map<String, Integer>> mapEntry : usernameLogsAndDuration.entrySet()) {
+            int totalDuration = 0;
+
+            for (Map.Entry<String, Integer> innerMapEntry : mapEntry.getValue().entrySet()) {
+                totalDuration += innerMapEntry.getValue();
+            }
+
+            System.out.printf("%s: %d ", mapEntry.getKey(), totalDuration);
+            System.out.printf("[");
+            index = 0;
+            mapEntry.getValue().entrySet().forEach( e -> {
+                index++;
+                System.out.printf("%s", e.getKey());
+                if (index < mapEntry.getValue().size()){
+                    System.out.print(", ");
+                } else {
+                    System.out.print("");
+                }
+            });
+            System.out.printf("]");
+            System.out.println();
+        }
+
+
+
+
+    }
+}
