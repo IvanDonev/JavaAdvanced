@@ -1,0 +1,147 @@
+import java.util.*;
+
+public class E14_DragonArmy {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, DragonArmy> dragonArmyMap = new LinkedHashMap<>();
+
+
+        int n = Integer.parseInt(scanner.nextLine());
+
+        while (n-- > 0){
+            String[] input = scanner.nextLine().split(" ");
+
+            String dragonType = input[0];
+            String dragonName = input[1];
+            int damage = 0;
+            int health = 0;
+            int armor = 0;
+
+            if (input[2].equals("null")){
+                damage = 45;
+            } else {
+                damage = Integer.parseInt(input[2]);
+            }
+
+            if (input[3].equals("null")){
+                health = 250;
+            } else {
+                health = Integer.parseInt(input[3]);
+            }
+
+            if (input[4].equals("null")){
+                armor = 10;
+            } else {
+                armor = Integer.parseInt(input[4]);
+            }
+
+            Dragon currDragon = new Dragon(dragonName,damage,health, armor);
+            dragonArmyMap.putIfAbsent(dragonType, new DragonArmy(dragonType));
+
+            dragonArmyMap.get(dragonType).addDragons(currDragon);
+
+
+
+        }
+
+        dragonArmyMap.values().forEach(System.out::print);
+
+
+
+    }
+
+
+    public static class DragonArmy {
+        String type;
+        List<Dragon> dragons;
+        double averageDamage;
+        double averageHealth;
+        double averageArmor;
+
+        public DragonArmy(String type) {
+            this.type = type;
+            this.dragons = new ArrayList<>();
+        }
+
+        public void addDragons(Dragon dragon) {
+            checkDragonExistenceAndRemove(dragon);
+            this.dragons.add(dragon);
+
+            double totalSumDamage = 0;
+            double totalSumHealth = 0;
+            double totalArmor = 0;
+
+
+            for (int i = 0; i < dragons.size() ; i++) {
+                totalSumDamage += dragons.get(i).damage;
+                totalSumHealth += dragons.get(i).health;
+                totalArmor += dragons.get(i).armor;
+            }
+
+            totalArmor /= dragons.size();
+            totalSumDamage /= dragons.size();
+            totalSumHealth /= dragons.size();
+
+            this.averageArmor = totalArmor;
+            this.averageDamage = totalSumDamage;
+            this.averageHealth = totalSumHealth;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder output = new StringBuilder();
+
+            output.append(String.format("%s::(%.2f/%.2f/%.2f)",type,averageDamage,averageHealth, averageArmor));
+            output.append(System.lineSeparator());
+
+            this.dragons.stream().sorted().forEach(e -> {
+                output.append(e);
+                output.append(System.lineSeparator());
+
+            });
+
+          return output.toString();
+        }
+
+        private void checkDragonExistenceAndRemove(Dragon dragon) {
+            for (int i = 0; i < dragons.size() ; i++) {
+                if (dragons.get(i).name.equals(dragon.name)){
+                    dragons.remove(i);
+                }
+            }
+
+
+
+
+
+        }
+    }
+
+
+
+    public static class Dragon implements Comparable<Dragon> {
+        ;
+            String name;
+            int damage;
+            int health;
+            int armor;
+
+        public Dragon(String name, int damage, int health, int armor) {
+            this.name = name;
+            this.damage = damage;
+            this.health = health;
+            this.armor = armor;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("-%s -> damage: %d, health: %d, armor: %d", this.name, this.damage, this.health, this.armor);
+        }
+
+        @Override
+        public int compareTo(Dragon otherDragon) {
+            return this.name.compareTo(otherDragon.name);
+        }
+    }
+}
