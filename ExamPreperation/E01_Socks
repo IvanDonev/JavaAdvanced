@@ -1,0 +1,61 @@
+import java.util.*;
+
+public class E01_Socks {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+
+       String[] leftSocks = scanner.nextLine().split(" ");
+       String[] rightSocks = scanner.nextLine().split(" ");
+
+        ArrayDeque<Integer> leftSockCollection = new ArrayDeque<>();
+        ArrayDeque<Integer> rightSockCollection = new ArrayDeque<>();
+        List<Integer> sockPairs = new LinkedList<>();
+
+
+        for (int i = 0; i < leftSocks.length; i++) {
+            int currSock = Integer.parseInt(leftSocks[i]);
+            leftSockCollection.offer(currSock);
+        }
+
+        for (int i = 0; i < rightSocks.length; i++) {
+            int currSock = Integer.parseInt(rightSocks[i]);
+            rightSockCollection.add(currSock);
+        }
+
+
+    while (leftSockCollection.size() > 0 && rightSockCollection.size() > 0){
+        int leftSock = leftSockCollection.pollLast();
+        int rightSock = rightSockCollection.pop();
+        int pair = 0;
+
+
+        if (leftSock > rightSock){
+            pair = leftSock + rightSock;
+            sockPairs.add(pair);
+        } else if (leftSock < rightSock){
+            rightSockCollection.push(rightSock);
+        }else {
+            ++leftSock;
+            leftSockCollection.addLast(leftSock);
+        }
+
+
+    }
+
+    int biggestPair = 0;
+
+        for (int i = 0; i < sockPairs.size(); i++) {
+            if (sockPairs.get(i) > biggestPair){
+                biggestPair = sockPairs.get(i);
+            }
+        }
+
+        System.out.println(biggestPair);
+
+        sockPairs.forEach(e -> System.out.print(e + " "));
+
+
+
+
+    }
+}
