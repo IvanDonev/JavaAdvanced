@@ -1,0 +1,78 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
+
+public class E01_ClubParty {
+    public static void main (String[] args){
+        Scanner scanner = new Scanner(System.in);
+        int hallCapacity = Integer.parseInt(scanner.nextLine());
+
+        String[] input = scanner.nextLine().split(" ");
+        Deque<String> hallsAndReservations = initializeStack(input);
+
+
+        Deque<String> halls = new ArrayDeque<>();
+        Deque<Integer> reservations = new ArrayDeque<>();
+
+        int currentReservationsCapacity = 0;
+
+
+        while (!hallsAndReservations.isEmpty()){
+            String element = hallsAndReservations.pop();
+
+            if (Character.isDigit(element.charAt(0))){
+
+                int reservation = Integer.parseInt(element);
+
+                if (currentReservationsCapacity + reservation > hallCapacity){
+                    printHall(halls, reservations);
+                    currentReservationsCapacity = 0;
+                }
+
+
+                if (halls.size() == 0){
+                    continue;
+                }
+
+                    reservations.add(reservation);
+                    currentReservationsCapacity += reservation;
+
+
+            } else {
+                halls.add(element);
+            }
+
+        }
+
+
+
+
+    }
+
+    private static void printHall(Deque<String> halls, Deque<Integer> reservations) {
+        System.out.print(halls.remove() + " -> ");
+
+
+        while (!reservations.isEmpty()){
+            if (reservations.size() == 1) {
+                System.out.print(reservations.remove());
+            } else {
+                System.out.print(reservations.remove() + ", ");
+            }
+        }
+
+        System.out.println();
+
+    }
+
+    private static Deque<String> initializeStack(String[] input) {
+        Deque<String> stack = new ArrayDeque<>();
+
+        for (int i = 0; i < input.length; i++) {
+            stack.push(input[i]);
+        }
+
+        return stack;
+
+    }
+}
